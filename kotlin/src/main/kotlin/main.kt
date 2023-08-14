@@ -18,11 +18,7 @@ fun main(args: Array<String>) {
         }
         users.add(attributes)
     }
-    val csvProviers: List<List<String>> = ArrayList()
-    var a: ArrayList<String> = ArrayList()
-    for (i in 0 until a.size step 1) {
-        a.add(csvProviers.get(i)[0])
-    }
+
     users.removeAt(0) // Remove header column
 
     // Parse URL content
@@ -40,10 +36,6 @@ fun main(args: Array<String>) {
 
     val jsonObject = JSONObject(result)
     val results = jsonObject.getJSONArray("results")
-    a = ArrayList()
-    for (i in a.indices) {
-        a.add(results.getString(i))
-    }
 
     var j = BigInteger("100000000000")
     val b = ArrayList<Array<String>>()
