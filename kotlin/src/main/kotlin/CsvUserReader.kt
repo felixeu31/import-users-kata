@@ -1,8 +1,7 @@
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CsvUserReader constructor(private val csvSource: String): UserReader {
-    override fun getUsers(): ArrayList<Array<String>> {
+    override fun getUsers(): List<User> {
         val classLoader = object {}.javaClass
         val stream = classLoader.getResourceAsStream(csvSource)
         val csvUsers: java.util.ArrayList<Array<String>> = java.util.ArrayList()
@@ -16,8 +15,15 @@ class CsvUserReader constructor(private val csvSource: String): UserReader {
             }
             csvUsers.add(attributes)
         }
-
         csvUsers.removeAt(0) // Remove header column
-        return csvUsers
+        return csvUsers.map { rawUser ->
+            User(
+                rawUser[0].toLong(),
+                rawUser[5],
+                rawUser[2],
+                rawUser[3],
+            )
+        }
     }
+
 }

@@ -1,3 +1,3 @@
 interface UserReader {
-    fun getUsers(): ArrayList<Array<String>>
+    fun getUsers(): List<User>
 }
