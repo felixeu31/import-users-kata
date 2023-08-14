@@ -3,26 +3,34 @@ import java.math.BigInteger
 import java.util.*
 
 fun main(args: Array<String>) {
-
+    /**
+     * csv_providers ArrayList<id: number,
+     *       email: string
+     *       first_name: string
+     *       last_name: string>
+     */
     val users: ArrayList<Array<String>> = ArrayList()
 
-    val classLoader = object {}.javaClass
-    val stream = classLoader.getResourceAsStream("users.csv")
-    val csvUsers: ArrayList<Array<String>> = ArrayList()
-    val csvFile: Scanner = Scanner(stream)
-    while (csvFile.hasNextLine()) {
-        val line = csvFile.nextLine()
-        // fields: ID, gender, Name ,country, postcode, email, Birthdate
-        val attributes: Array<String> = line.split(",").toTypedArray()
-        if (attributes.size == 0) {
-            continue;
-        }
-        csvUsers.add(attributes)
+    users.addAll(getCsvUsers())
+    users.addAll(getWebUsers())
+
+    printUsers(users)
+}
+
+private fun printUsers(users: ArrayList<Array<String>>) {
+    println("*********************************************************************************")
+    println("* ID\t\t\t* COUNTRY\t\t* NAME\t\t\t\t* EMAIL\t\t\t\t\t\t*")
+    println("*********************************************************************************")
+    for (user in users) {
+        println(String.format("* %s\t* %s\t\t* %s\t\t* %s\t*", user[0], user[3], user[2], user[5]))
     }
+    println("*********************************************************************************")
+    println(users.size.toString() + " users in total!")
+}
 
-    csvUsers.removeAt(0) // Remove header column
-
+private fun getWebUsers(): ArrayList<Array<String>> {
     // Parse URL content
+    val webUsers = ArrayList<Array<String>>()
     val url = "https://randomuser.me/api/?inc=gender,name,email,location&results=5&seed=a9b25cd955e2037h";
     val command = "curl -X GET " + url
     val processBuilder = ProcessBuilder(command.split(" "))
@@ -39,7 +47,6 @@ fun main(args: Array<String>) {
     val results = jsonObject.getJSONArray("results")
 
     var j = BigInteger("100000000000")
-    val webUsers = ArrayList<Array<String>>()
     for (i in 0 until results.length()) {
         j = j.add(BigInteger("1"))
         webUsers.add(
@@ -55,23 +62,24 @@ fun main(args: Array<String>) {
             )
         )
     }
+    return webUsers
+}
 
-    /**
-     * csv_providers ArrayList<id: number,
-     *       email: string
-     *       first_name: string
-     *       last_name: string>
-     */
-    users.addAll(csvUsers)
-    users.addAll(webUsers)
-
-    println("*********************************************************************************")
-    println("* ID\t\t\t* COUNTRY\t\t* NAME\t\t\t\t* EMAIL\t\t\t\t\t\t*")
-    println("*********************************************************************************")
-    for (user in users) {
-        println(String.format("* %s\t* %s\t\t* %s\t\t* %s\t*", user[0], user[3], user[2], user[5]))
+private fun getCsvUsers(): ArrayList<Array<String>> {
+    val classLoader = object {}.javaClass
+    val stream = classLoader.getResourceAsStream("users.csv")
+    val csvUsers: ArrayList<Array<String>> = ArrayList()
+    val csvFile: Scanner = Scanner(stream)
+    while (csvFile.hasNextLine()) {
+        val line = csvFile.nextLine()
+        // fields: ID, gender, Name ,country, postcode, email, Birthdate
+        val attributes: Array<String> = line.split(",").toTypedArray()
+        if (attributes.size == 0) {
+            continue;
+        }
+        csvUsers.add(attributes)
     }
-    println("*********************************************************************************")
-    println(users.size.toString() + " users in total!")
 
+    csvUsers.removeAt(0) // Remove header column
+    return csvUsers
 }
