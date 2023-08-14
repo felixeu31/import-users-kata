@@ -11,7 +11,9 @@ fun main(args: Array<String>) {
      */
     val users: ArrayList<Array<String>> = ArrayList()
 
-    users.addAll(getCsvUsers())
+    val csvUserReader = CsvUserReader("users.csv")
+
+    users.addAll(csvUserReader.getUsers())
     users.addAll(getWebUsers())
 
     printUsers(users)
@@ -65,21 +67,3 @@ private fun getWebUsers(): ArrayList<Array<String>> {
     return webUsers
 }
 
-private fun getCsvUsers(): ArrayList<Array<String>> {
-    val classLoader = object {}.javaClass
-    val stream = classLoader.getResourceAsStream("users.csv")
-    val csvUsers: ArrayList<Array<String>> = ArrayList()
-    val csvFile: Scanner = Scanner(stream)
-    while (csvFile.hasNextLine()) {
-        val line = csvFile.nextLine()
-        // fields: ID, gender, Name ,country, postcode, email, Birthdate
-        val attributes: Array<String> = line.split(",").toTypedArray()
-        if (attributes.size == 0) {
-            continue;
-        }
-        csvUsers.add(attributes)
-    }
-
-    csvUsers.removeAt(0) // Remove header column
-    return csvUsers
-}
