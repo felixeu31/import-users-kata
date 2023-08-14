@@ -3,11 +3,12 @@ import java.math.BigInteger
 import java.util.*
 
 fun main(args: Array<String>) {
-    val USER_URL = "https://randomuser.me/api/?inc=gender,name,email,location&results=5&seed=a9b25cd955e2037h"
+
+    val users: ArrayList<Array<String>> = ArrayList()
 
     val classLoader = object {}.javaClass
     val stream = classLoader.getResourceAsStream("users.csv")
-    val users: ArrayList<Array<String>> = ArrayList()
+    val csvUsers: ArrayList<Array<String>> = ArrayList()
     val csvFile: Scanner = Scanner(stream)
     while (csvFile.hasNextLine()) {
         val line = csvFile.nextLine()
@@ -16,13 +17,13 @@ fun main(args: Array<String>) {
         if (attributes.size == 0) {
             continue;
         }
-        users.add(attributes)
+        csvUsers.add(attributes)
     }
 
-    users.removeAt(0) // Remove header column
+    csvUsers.removeAt(0) // Remove header column
 
     // Parse URL content
-    val url = USER_URL;
+    val url = "https://randomuser.me/api/?inc=gender,name,email,location&results=5&seed=a9b25cd955e2037h";
     val command = "curl -X GET " + url
     val processBuilder = ProcessBuilder(command.split(" "))
     val process = processBuilder.start()
@@ -38,10 +39,10 @@ fun main(args: Array<String>) {
     val results = jsonObject.getJSONArray("results")
 
     var j = BigInteger("100000000000")
-    val b = ArrayList<Array<String>>()
+    val webUsers = ArrayList<Array<String>>()
     for (i in 0 until results.length()) {
         j = j.add(BigInteger("1"))
-        b.add(
+        webUsers.add(
             arrayOf(
                 j.toString(),  // id
                 results.getJSONObject(i).getString("gender"),
@@ -61,7 +62,8 @@ fun main(args: Array<String>) {
      *       first_name: string
      *       last_name: string>
      */
-    users.addAll(b)
+    users.addAll(csvUsers)
+    users.addAll(webUsers)
 
     println("*********************************************************************************")
     println("* ID\t\t\t* COUNTRY\t\t* NAME\t\t\t\t* EMAIL\t\t\t\t\t\t*")
