@@ -3,18 +3,16 @@ import java.math.BigInteger
 import java.util.*
 
 fun main(args: Array<String>) {
-    val users: ArrayList<Array<String>> = ArrayList()
-
-    val csvUserReader = CsvUserReader("users.csv")
-    val webUserReader = WebUserReader("https://randomuser.me/api/?inc=gender,name,email,location&results=5&seed=a9b25cd955e2037h")
-
-    users.addAll(csvUserReader.getUsers())
-    users.addAll(webUserReader.getUsers())
+    val userReaders: List<UserReader> = listOf(
+        CsvUserReader("users.csv"),
+        WebUserReader("https://randomuser.me/api/?inc=gender,name,email,location&results=5&seed=a9b25cd955e2037h")
+    )
+    val users : List<Array<String>> = userReaders.flatMap { userReader -> userReader.getUsers() }
 
     printUsers(users)
 }
 
-private fun printUsers(users: ArrayList<Array<String>>) {
+private fun printUsers(users: List<Array<String>>) {
     println("*********************************************************************************")
     println("* ID\t\t\t* COUNTRY\t\t* NAME\t\t\t\t* EMAIL\t\t\t\t\t\t*")
     println("*********************************************************************************")
