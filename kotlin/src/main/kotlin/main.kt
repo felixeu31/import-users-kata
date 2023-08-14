@@ -7,7 +7,7 @@ fun main(args: Array<String>) {
 
     val classLoader = object {}.javaClass
     val stream = classLoader.getResourceAsStream("users.csv")
-    val csv_providers: ArrayList<Array<String>> = ArrayList()
+    val users: ArrayList<Array<String>> = ArrayList()
     val csvFile: Scanner = Scanner(stream)
     while (csvFile.hasNextLine()) {
         val line = csvFile.nextLine()
@@ -16,14 +16,14 @@ fun main(args: Array<String>) {
         if (attributes.size == 0) {
             continue;
         }
-        csv_providers.add(attributes)
+        users.add(attributes)
     }
     val csvProviers: List<List<String>> = ArrayList()
     var a: ArrayList<String> = ArrayList()
     for (i in 0 until a.size step 1) {
         a.add(csvProviers.get(i)[0])
     }
-    csv_providers.removeAt(0) // Remove header column
+    users.removeAt(0) // Remove header column
 
     // Parse URL content
     val url = USER_URL;
@@ -69,15 +69,15 @@ fun main(args: Array<String>) {
      *       first_name: string
      *       last_name: string>
      */
-    csv_providers.addAll(b)
+    users.addAll(b)
 
     println("*********************************************************************************")
     println("* ID\t\t\t* COUNTRY\t\t* NAME\t\t\t\t* EMAIL\t\t\t\t\t\t*")
     println("*********************************************************************************")
-    for (item in csv_providers) {
-        println(String.format("* %s\t* %s\t\t* %s\t\t* %s\t*", item[0], item[3], item[2], item[5]))
+    for (user in users) {
+        println(String.format("* %s\t* %s\t\t* %s\t\t* %s\t*", user[0], user[3], user[2], user[5]))
     }
     println("*********************************************************************************")
-    println(csv_providers.size.toString() + " users in total!")
+    println(users.size.toString() + " users in total!")
 
 }
