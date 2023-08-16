@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import io.mockk.mockk
 
-
 class CsvUserReaderUnitTest {
 
     @Test
     fun should_return_empty_list_when_no_users_in_file() {
         // Given
-        val fileStream: InputStream = """id,gender,name,country,postcode,email,birthdate""".byteInputStream()
         val fileReaderMock = mockk<FileReader>()
+        val fileContentMock = """id,gender,name,country,postcode,email,birthdate"""
+        val fileStream: InputStream = fileContentMock.byteInputStream()
         every { fileReaderMock.getFileAsInputStream("mockPath") } returns fileStream
-        val csvUserReader: CsvUserReader = CsvUserReader("mockPath", fileReaderMock)
+        val csvUserReader = CsvUserReader("mockPath", fileReaderMock)
 
         // When
         val users = csvUserReader.getUsers()
@@ -23,20 +23,22 @@ class CsvUserReaderUnitTest {
     }
 
     @Test
-    fun should_return_parsed_user_from_csv_file() {
+    fun should_return_parsed_users_from_csv_file() {
         // Given
-        val fileStream: InputStream = """id,gender,name,country,postcode,email,birthdate
-200189617246,male,Lukas Schmidt,Germany,10780,lukas.shmidt@example.com,1997-02-19T04:10:00.000Z""".byteInputStream()
         val fileReaderMock = mockk<FileReader>()
+        val fileContentMock = """id,gender,name,country,postcode,email,birthdate
+200189617246,male,Lukas Schmidt,Germany,10780,lukas.shmidt@example.com,1997-02-19T04:10:00.000Z
+200189016257,female,Maria Fischer,Germany,15010,maria.fischer@example.com,1991-08-06T09:20:00.000Z"""
+        val fileStream: InputStream = fileContentMock.byteInputStream()
         every { fileReaderMock.getFileAsInputStream("mockPath") } returns fileStream
-        val csvUserReader: CsvUserReader = CsvUserReader("mockPath", fileReaderMock)
+        val csvUserReader = CsvUserReader("mockPath", fileReaderMock)
 
         // When
         val users = csvUserReader.getUsers()
 
         // Then
         assertEquals(false, users.isEmpty())
-        assertEquals(1, users.size)
+        assertEquals(2, users.size)
         assertEquals(200189617246, users.first().id)
         assertEquals("Germany", users.first().country)
         assertEquals("lukas.shmidt@example.com", users.first().email)

@@ -2,33 +2,34 @@ import java.util.*
 
 class CsvUserReader constructor(private val csvSource: String, private val fileReader: FileReader): UserReader {
     override fun getUsers(): List<User> {
-        val csvUsers: java.util.ArrayList<Array<String>> = java.util.ArrayList()
+        val users: MutableList<User> = mutableListOf()
 
-        val stream = fileReader.getFileAsInputStream(csvSource)
+        val fileScanner = Scanner(fileReader.getFileAsInputStream(csvSource))
 
-        val fileStreamScanner: Scanner = Scanner(stream)
+        // Skip header
+        fileScanner.nextLine()
 
-        fileStreamScanner.nextLine()
+        while (fileScanner.hasNextLine()) {
+            val user = parseLineToUser(fileScanner.nextLine())
 
-        while (fileStreamScanner.hasNextLine()) {
-            val line = fileStreamScanner.nextLine()
-            // fields: ID, gender, Name ,country, postcode, email, Birthdate
-            val attributes: Array<String> = line.split(",").toTypedArray()
-            if (attributes.size == 0) {
-                continue;
-            }
-            csvUsers.add(attributes)
+            if(user != null)
+                users.add(user)
         }
 
-        return csvUsers.map { rawUser ->
-            User(
-                rawUser[0].toLong(),
-                rawUser[5],
-                rawUser[2],
-                rawUser[3],
-            )
-        }
+        return users
     }
 
+    private fun parseLineToUser(line: String): User? {
+        val values = line.split(",")
 
+        if(values.isEmpty())
+            return null
+
+        return User(
+            values[0].toLong(),
+            values[5],
+            values[2],
+            values[3],
+        )
+    }
 }
