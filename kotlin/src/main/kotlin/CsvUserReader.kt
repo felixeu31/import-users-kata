@@ -1,13 +1,17 @@
 import java.util.*
 
-class CsvUserReader constructor(private val csvSource: String): UserReader {
+class CsvUserReader constructor(private val csvSource: String, private val fileReader: FileReader): UserReader {
     override fun getUsers(): List<User> {
-        val classLoader = object {}.javaClass
-        val stream = classLoader.getResourceAsStream(csvSource)
         val csvUsers: java.util.ArrayList<Array<String>> = java.util.ArrayList()
-        val csvFile: Scanner = Scanner(stream)
-        while (csvFile.hasNextLine()) {
-            val line = csvFile.nextLine()
+
+        val stream = fileReader.getFileAsInputStream(csvSource)
+
+        val fileStreamScanner: Scanner = Scanner(stream)
+
+        fileStreamScanner.nextLine()
+
+        while (fileStreamScanner.hasNextLine()) {
+            val line = fileStreamScanner.nextLine()
             // fields: ID, gender, Name ,country, postcode, email, Birthdate
             val attributes: Array<String> = line.split(",").toTypedArray()
             if (attributes.size == 0) {
@@ -15,7 +19,7 @@ class CsvUserReader constructor(private val csvSource: String): UserReader {
             }
             csvUsers.add(attributes)
         }
-        csvUsers.removeAt(0) // Remove header column
+
         return csvUsers.map { rawUser ->
             User(
                 rawUser[0].toLong(),
@@ -25,5 +29,6 @@ class CsvUserReader constructor(private val csvSource: String): UserReader {
             )
         }
     }
+
 
 }
