@@ -2,21 +2,13 @@ import org.json.JSONObject
 import java.math.BigInteger
 import java.util.*
 
-class WebUserReader constructor(private val url: String): UserReader {
+class WebUserReader constructor(private val url: String, private val apiClient: ApiClient): UserReader {
     override fun getUsers(): List<User> {
-        // Parse URL content
-        val webUsers = java.util.ArrayList<Array<String>>()
-        val command = "curl -X GET " + url
-        val processBuilder = ProcessBuilder(command.split(" "))
-        val process = processBuilder.start()
-        val iStream = process.inputStream
-        val webProvider = Scanner(iStream)
-        var result = ""
-        while (webProvider.hasNextLine()) {
-            result += webProvider.nextLine()
-        }
-        webProvider.close()
-        val jsonObject = JSONObject(result)
+        val webUsers = ArrayList<Array<String>>()
+        val usersResponse = apiClient.executeRequest(url)
+
+
+        val jsonObject = JSONObject(usersResponse)
         val results = jsonObject.getJSONArray("results")
         var j = BigInteger("100000000000")
         for (i in 0 until results.length()) {
