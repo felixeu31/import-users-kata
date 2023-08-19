@@ -1,3 +1,7 @@
+package com.kata.importusers.unit
+
+import com.kata.importusers.interfaces.FileReader
+import com.kata.importusers.readers.CsvUserReader
 import io.mockk.every
 import java.io.InputStream
 import org.junit.jupiter.api.Test

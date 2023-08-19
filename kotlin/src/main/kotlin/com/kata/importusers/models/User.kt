@@ -1,3 +1,5 @@
+package com.kata.importusers.models
+
 class User(
     val id: Long,
     val email: String,

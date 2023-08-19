@@ -1,3 +1,7 @@
+package com.kata.importusers.readers
+
+import com.kata.importusers.interfaces.FileReader
+import com.kata.importusers.models.User
 import java.util.*
 
 class CsvUserReader constructor(private val csvSource: String, private val fileReader: FileReader): UserReader {

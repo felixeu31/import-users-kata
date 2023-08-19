@@ -1,3 +1,7 @@
+package com.kata.importusers.infra
+
+import com.kata.importusers.models.User
+
 class UserPrinter {
     fun printUsers(users: List<User>) {
         println("*********************************************************************************")
