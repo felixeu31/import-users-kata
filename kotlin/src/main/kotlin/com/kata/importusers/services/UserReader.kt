@@ -1,4 +1,4 @@
-package com.kata.importusers.readers
+package com.kata.importusers.services
 
 import com.kata.importusers.models.User
 

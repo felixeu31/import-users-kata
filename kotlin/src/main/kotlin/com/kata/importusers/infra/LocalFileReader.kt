@@ -1,6 +1,5 @@
 package com.kata.importusers.infra
 
-import com.kata.importusers.interfaces.FileReader
 import java.io.InputStream
 
 class LocalFileReader: FileReader {

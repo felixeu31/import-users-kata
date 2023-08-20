@@ -1,10 +1,10 @@
 import com.kata.importusers.infra.ConsolePrinter
 import com.kata.importusers.infra.LocalFileReader
 import com.kata.importusers.infra.PublicApiClient
-import com.kata.importusers.infra.UserPrinter
-import com.kata.importusers.readers.UserReader
-import com.kata.importusers.readers.CsvUserReader
-import com.kata.importusers.readers.WebUserReader
+import com.kata.importusers.services.UserDisplay
+import com.kata.importusers.services.UserReader
+import com.kata.importusers.services.CsvUserReader
+import com.kata.importusers.services.WebUserReader
 
 fun main(args: Array<String>) {
     val userReaders: List<UserReader> = listOf(
@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
     val users = userReaders
         .flatMap { userReader -> userReader.getUsers() }
 
-    UserPrinter(ConsolePrinter()).printUsers(users)
+    UserDisplay(ConsolePrinter()).printUsers(users)
 }
 
 

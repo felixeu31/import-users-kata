@@ -1,7 +1,7 @@
 package com.kata.importusers.unit
 
-import com.kata.importusers.interfaces.ApiClient
-import com.kata.importusers.readers.WebUserReader
+import com.kata.importusers.infra.ApiClient
+import com.kata.importusers.services.WebUserReader
 import io.mockk.every
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

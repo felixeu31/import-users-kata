@@ -1,6 +1,6 @@
-package com.kata.importusers.readers
+package com.kata.importusers.services
 
-import com.kata.importusers.interfaces.FileReader
+import com.kata.importusers.infra.FileReader
 import com.kata.importusers.models.User
 import java.util.*
 

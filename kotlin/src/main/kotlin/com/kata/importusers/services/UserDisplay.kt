@@ -1,9 +1,9 @@
-package com.kata.importusers.infra
+package com.kata.importusers.services
 
-import com.kata.importusers.interfaces.Printer
+import com.kata.importusers.infra.Printer
 import com.kata.importusers.models.User
 
-class UserPrinter(private val printer: Printer) {
+class UserDisplay(private val printer: Printer) {
     fun printUsers(users: List<User>) {
         printer.writeLine("*********************************************************************************")
         printer.writeLine("* ID\t\t\t* COUNTRY\t\t* NAME\t\t\t\t* EMAIL\t\t\t\t\t\t*")

@@ -1,6 +1,5 @@
 package com.kata.importusers.infra
 
-import com.kata.importusers.interfaces.ApiClient
 import java.util.*
 
 class PublicApiClient: ApiClient {

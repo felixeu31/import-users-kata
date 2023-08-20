@@ -1,4 +1,4 @@
-package com.kata.importusers.interfaces
+package com.kata.importusers.infra
 
 import java.io.InputStream
 

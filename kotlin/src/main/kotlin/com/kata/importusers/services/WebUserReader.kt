@@ -1,6 +1,6 @@
-package com.kata.importusers.readers
+package com.kata.importusers.services
 
-import com.kata.importusers.interfaces.ApiClient
+import com.kata.importusers.infra.ApiClient
 import com.kata.importusers.models.User
 import org.json.JSONArray
 import org.json.JSONObject
