@@ -1,3 +1,4 @@
+import com.kata.importusers.infra.ConsolePrinter
 import com.kata.importusers.infra.LocalFileReader
 import com.kata.importusers.infra.PublicApiClient
 import com.kata.importusers.infra.UserPrinter
@@ -16,7 +17,7 @@ fun main(args: Array<String>) {
     val users = userReaders
         .flatMap { userReader -> userReader.getUsers() }
 
-    UserPrinter().printUsers(users)
+    UserPrinter(ConsolePrinter()).printUsers(users)
 }
 
 

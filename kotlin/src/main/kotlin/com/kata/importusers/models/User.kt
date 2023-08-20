@@ -1,6 +1,6 @@
 package com.kata.importusers.models
 
-class User(
+data class User(
     val id: Long,
     val email: String,
     val name: String,
@@ -8,6 +8,4 @@ class User(
     val country: String,
            //val postCode: String,
            //val birthDate: Date
-) {
-
-}
+)
